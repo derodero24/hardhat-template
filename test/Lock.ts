@@ -1,5 +1,5 @@
-import { time, loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { anyValue } from '@nomicfoundation/hardhat-chai-matchers/withArgs';
+import { loadFixture, time } from '@nomicfoundation/hardhat-network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
@@ -33,7 +33,7 @@ describe('Lock', function () {
     it('Should set the right owner', async function () {
       const { lock, owner } = await loadFixture(deployOneYearLockFixture);
 
-      expect(await lock.owner()).to.equal(owner.address);
+      expect(await lock.owner()).to.equal(owner?.address);
     });
 
     it('Should receive and store the funds to lock', async function () {
@@ -75,7 +75,7 @@ describe('Lock', function () {
         await time.increaseTo(unlockTime);
 
         // We use lock.connect() to send a transaction from another account
-        await expect(lock.connect(otherAccount).withdraw()).to.be.revertedWith(
+        await expect(lock.connect(otherAccount!).withdraw()).to.be.revertedWith(
           "You aren't the owner",
         );
       });

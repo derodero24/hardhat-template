@@ -2,7 +2,7 @@
 pragma solidity ^0.8.17;
 
 // Import this file to use console.log
-import "hardhat/console.sol";
+import 'hardhat/console.sol';
 
 contract Lock {
     uint256 public unlockTime;
@@ -13,7 +13,7 @@ contract Lock {
     constructor(uint256 _unlockTime) payable {
         require(
             block.timestamp < _unlockTime,
-            "Unlock time should be in the future"
+            'Unlock time should be in the future'
         );
 
         unlockTime = _unlockTime;

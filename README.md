@@ -1,13 +1,21 @@
-# Sample Hardhat Project
+# Hardhat Template
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+## Install packages
 
-Try running some of the following tasks:
+```sh
+$ pnpm i --shamefully-hoist
+```
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+## Commands
+
+```sh
+$ npm run accounts
+$ npm run clean
+$ npm run compile
+$ npm run coverage
+$ npm run deploy
+$ npm run deploy:goerli
+$ npm run node
+$ npm run test
+$ npm run verify:goerli <contract_address>
 ```
