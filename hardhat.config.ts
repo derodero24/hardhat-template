@@ -33,7 +33,7 @@ const config: HardhatUserConfig = {
     apiKey: ETHERSCAN_API_KEY,
   },
   gasReporter: {
-    enabled: true,
+    enabled: false, // true
     currency: 'JPY',
     coinmarketcap: COINMARKETCAP_API_KEY,
   },

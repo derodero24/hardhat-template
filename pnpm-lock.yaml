@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@nomicfoundation/hardhat-toolbox': ^1.0.2
+  '@openzeppelin/contracts': ^4.8.1
   '@tsconfig/strictest': ^1.0.2
   '@typescript-eslint/eslint-plugin': ^5.51.0
   dotenv: ^16.0.3
@@ -14,6 +15,7 @@ specifiers:
 
 devDependencies:
   '@nomicfoundation/hardhat-toolbox': 1.0.2_bopgoz3ehg5vfavhdpy3j2uvgy
+  '@openzeppelin/contracts': 4.8.1
   '@tsconfig/strictest': 1.0.2
   '@typescript-eslint/eslint-plugin': 5.51.0_z4swst3wuuqk4hlme4ajzslgh4
   dotenv: 16.0.3
@@ -831,6 +833,10 @@ packages:
       undici: 5.18.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@openzeppelin/contracts/4.8.1:
+    resolution: {integrity: sha512-xQ6eUZl+RDyb/FiZe1h+U7qr/f4p/SrTSQcTPH2bjur3C5DbuW/zFgCU/b1P/xcIaEqJep+9ju4xDRi3rmChdQ==}
     dev: true
 
   /@scure/base/1.1.1:

@@ -21,6 +21,7 @@
         "maxLength": 64
       }
     ],
+    "no-empty-blocks": "off",
     "not-rely-on-time": "off"
   }
 }
