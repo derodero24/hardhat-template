@@ -2,11 +2,16 @@ import { ethers, upgrades } from 'hardhat';
 
 async function main() {
   const baseURI = 'ipfs://abc/';
+  const royaltyPercentage = 10;
 
   // Deploying
   const instance = await ethers
     .getContractFactory('SampleNFTUpgradable')
-    .then(factory => upgrades.deployProxy(factory, [baseURI], { kind: 'uups' }))
+    .then(factory =>
+      upgrades.deployProxy(factory, [baseURI, royaltyPercentage], {
+        kind: 'uups',
+      }),
+    )
     .then(contract => contract.deployed())
     .then(contract => {
       console.log('Deployed to:', contract.address);
