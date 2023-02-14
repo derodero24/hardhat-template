@@ -4,6 +4,7 @@ pragma solidity ^0.8.17;
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol';
+import '@openzeppelin/contracts/token/common/ERC2981.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
@@ -11,11 +12,12 @@ import 'operator-filter-registry/src/DefaultOperatorFilterer.sol';
 
 /// @custom:security-contact @derodero24
 contract SampleNFT is
-    DefaultOperatorFilterer,
     ERC721,
     ERC721Enumerable,
     ERC721Burnable,
-    Ownable
+    ERC2981,
+    Ownable,
+    DefaultOperatorFilterer
 {
     using Counters for Counters.Counter;
 
@@ -26,27 +28,26 @@ contract SampleNFT is
     // Metadata
     string public baseURI;
 
-    // Royalty [%]
-    uint8 public royaltyPercentage;
-
     Counters.Counter private _tokenIdCounter;
 
-    constructor(string memory _baseURI) ERC721('SampleNFT', 'SNFT') {
+    constructor(string memory _baseURI, uint96 _royaltyPercentage)
+        ERC721('SampleNFT', 'SNFT')
+    {
         setBaseURI(_baseURI);
-        // setRoyaltyPercentage(_royaltyPercentage);
+        setRoyaltyPercentage(_royaltyPercentage);
     }
 
     /*----------
         Mint
     ----------*/
 
-    function _mint(address to) internal {
+    function _mint(address _to) internal {
         // Check total supply
         require(totalSupply() < MAX_SUPPLY, 'Max supply reached.');
 
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
+        _safeMint(_to, tokenId);
     }
 
     function ownerMint() public onlyOwner {
@@ -68,7 +69,7 @@ contract SampleNFT is
         baseURI = _baseURI;
     }
 
-    function tokenURI(uint256 tokenId)
+    function tokenURI(uint256 _tokenId)
         public
         view
         override
@@ -76,8 +77,17 @@ contract SampleNFT is
     {
         return
             string(
-                abi.encodePacked(baseURI, Strings.toString(tokenId), '.json')
+                abi.encodePacked(baseURI, Strings.toString(_tokenId), '.json')
             );
+    }
+
+    /*-------------
+        Royalty
+    -------------*/
+
+    function setRoyaltyPercentage(uint96 _royaltyPercentage) public onlyOwner {
+        // Convert _royaltyPercentage to between 0 and 10_000.
+        _setDefaultRoyalty(owner(), _royaltyPercentage * 100);
     }
 
     /*-----------------------------------------------------------------
@@ -96,7 +106,7 @@ contract SampleNFT is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, ERC721Enumerable)
+        override(ERC721, ERC721Enumerable, ERC2981)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);

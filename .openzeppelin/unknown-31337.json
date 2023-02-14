@@ -2,20 +2,20 @@
   "manifestVersion": "3.2",
   "proxies": [
     {
-      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      "txHash": "0xde0d7e3728abdf62426dad53b97fe69c3c3594fe9a42ebd49ad878a50e9f9f5e",
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0xd15ff076d1b8fccb94323466b04f1447eb0bac403b1aa28580677b1a6d4121c9",
       "kind": "uups"
     },
     {
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0xd15ff076d1b8fccb94323466b04f1447eb0bac403b1aa28580677b1a6d4121c9",
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "txHash": "0xcf46daa83035f1851c977b1b30c7e54c34e68efcd74273e756a24a12dd03a401",
       "kind": "uups"
     }
   ],
   "impls": {
-    "b0c4698be0a4c3b72caf99d838486ac558cad18ecd7234112f04f0c8ca6a60ea": {
-      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x42dd12ab7c9f2d819603840d9322b944ea3acea488f5c22a3b83d13b1a7c84c7",
+    "ff698dd00d6dc38b4b074a59a79ecec546f80253e32ac4350b89f00434772779": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0x02d2934ee26e375dc6051eb82ced77f55a31691bc1c463a5e87a036115564690",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -157,9 +157,33 @@
             "src": "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol:38"
           },
           {
-            "label": "_owner",
+            "label": "_defaultRoyaltyInfo",
             "offset": 0,
             "slot": "251",
+            "type": "t_struct(RoyaltyInfo)2459_storage",
+            "contract": "ERC2981Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol:36"
+          },
+          {
+            "label": "_tokenRoyaltyInfo",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_mapping(t_uint256,t_struct(RoyaltyInfo)2459_storage)",
+            "contract": "ERC2981Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol:37"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_array(t_uint256)48_storage",
+            "contract": "ERC2981Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol:123"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "301",
             "type": "t_address",
             "contract": "OwnableUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
@@ -167,7 +191,7 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "252",
+            "slot": "302",
             "type": "t_array(t_uint256)49_storage",
             "contract": "OwnableUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
@@ -175,7 +199,7 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "301",
+            "slot": "351",
             "type": "t_array(t_uint256)50_storage",
             "contract": "ERC1967UpgradeUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:211"
@@ -183,7 +207,7 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "351",
+            "slot": "401",
             "type": "t_array(t_uint256)50_storage",
             "contract": "UUPSUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:107"
@@ -191,26 +215,18 @@
           {
             "label": "baseURI",
             "offset": 0,
-            "slot": "401",
+            "slot": "451",
             "type": "t_string_storage",
             "contract": "SampleNFTUpgradable",
-            "src": "contracts/SampleNFTUpgradable.sol:29"
-          },
-          {
-            "label": "royaltyPercentage",
-            "offset": 0,
-            "slot": "402",
-            "type": "t_uint8",
-            "contract": "SampleNFTUpgradable",
-            "src": "contracts/SampleNFTUpgradable.sol:32"
+            "src": "contracts/SampleNFTUpgradable.sol:33"
           },
           {
             "label": "_tokenIdCounter",
             "offset": 0,
-            "slot": "403",
-            "type": "t_struct(Counter)2743_storage",
+            "slot": "452",
+            "type": "t_struct(Counter)2980_storage",
             "contract": "SampleNFTUpgradable",
-            "src": "contracts/SampleNFTUpgradable.sol:34"
+            "src": "contracts/SampleNFTUpgradable.sol:35"
           }
         ],
         "types": {
@@ -225,6 +241,10 @@
           "t_array(t_uint256)46_storage": {
             "label": "uint256[46]",
             "numberOfBytes": "1472"
+          },
+          "t_array(t_uint256)48_storage": {
+            "label": "uint256[48]",
+            "numberOfBytes": "1536"
           },
           "t_array(t_uint256)49_storage": {
             "label": "uint256[49]",
@@ -262,6 +282,10 @@
             "label": "mapping(uint256 => address)",
             "numberOfBytes": "32"
           },
+          "t_mapping(t_uint256,t_struct(RoyaltyInfo)2459_storage)": {
+            "label": "mapping(uint256 => struct ERC2981Upgradeable.RoyaltyInfo)",
+            "numberOfBytes": "32"
+          },
           "t_mapping(t_uint256,t_uint256)": {
             "label": "mapping(uint256 => uint256)",
             "numberOfBytes": "32"
@@ -270,13 +294,31 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(Counter)2743_storage": {
+          "t_struct(Counter)2980_storage": {
             "label": "struct CountersUpgradeable.Counter",
             "members": [
               {
                 "label": "_value",
                 "type": "t_uint256",
                 "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(RoyaltyInfo)2459_storage": {
+            "label": "struct ERC2981Upgradeable.RoyaltyInfo",
+            "members": [
+              {
+                "label": "receiver",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "royaltyFraction",
+                "type": "t_uint96",
+                "offset": 20,
                 "slot": "0"
               }
             ],
@@ -289,6 +331,10 @@
           "t_uint8": {
             "label": "uint8",
             "numberOfBytes": "1"
+          },
+          "t_uint96": {
+            "label": "uint96",
+            "numberOfBytes": "12"
           }
         }
       }

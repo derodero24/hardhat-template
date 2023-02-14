@@ -9,11 +9,14 @@ describe('SampleNFTUpgradable', () => {
     const [owner, other1, other2] = await ethers.getSigners();
 
     const baseURI = 'ipfs://abc/';
+    const royaltyPercentage = 10;
 
     const contract = await ethers
       .getContractFactory('SampleNFTUpgradable')
       .then(factory =>
-        upgrades.deployProxy(factory, [baseURI], { kind: 'uups' }),
+        upgrades.deployProxy(factory, [baseURI, royaltyPercentage], {
+          kind: 'uups',
+        }),
       )
       .then(contract => contract.deployed())
       .then(contract => contract as SampleNFTUpgradable);
@@ -21,6 +24,7 @@ describe('SampleNFTUpgradable', () => {
     return {
       contract,
       baseURI,
+      royaltyPercentage,
       owner: owner!,
       other1: other1!,
       other2: other2!,
@@ -99,7 +103,23 @@ describe('SampleNFTUpgradable', () => {
   });
 
   describe('Royalty', () => {
-    it('', async () => {
+    it('Right initial royality info', async () => {
+      const { contract, royaltyPercentage, owner } = await loadFixture(deploy);
+
+      // pattern 1
+      const [receiver, royaltyAmount] = await contract.royaltyInfo(1, 10_000);
+      expect(receiver).to.equal(owner.address);
+      expect(royaltyAmount).to.equal(10_000 * (royaltyPercentage / 100));
+
+      // pattern 2
+      const [receiver2, royaltyAmount2] = await contract.royaltyInfo(23, 123);
+      expect(receiver2).to.equal(owner.address);
+      expect(royaltyAmount2).to.equal(
+        Math.floor(123 * (royaltyPercentage / 100)),
+      );
+    });
+
+    it('Update royality percentage', async () => {
       // TODO
     });
   });

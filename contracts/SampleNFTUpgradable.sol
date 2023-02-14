@@ -4,6 +4,7 @@ pragma solidity ^0.8.17;
 import '@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
@@ -14,12 +15,13 @@ import 'operator-filter-registry/src/upgradeable/DefaultOperatorFiltererUpgradea
 /// @custom:security-contact @derodero24
 contract SampleNFTUpgradable is
     Initializable,
-    DefaultOperatorFiltererUpgradeable,
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
     ERC721BurnableUpgradeable,
+    ERC2981Upgradeable,
     OwnableUpgradeable,
-    UUPSUpgradeable
+    UUPSUpgradeable,
+    DefaultOperatorFiltererUpgradeable
 {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
@@ -30,9 +32,6 @@ contract SampleNFTUpgradable is
     // Metadata
     string public baseURI;
 
-    // Royalty [%]
-    uint8 public royaltyPercentage;
-
     CountersUpgradeable.Counter private _tokenIdCounter;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -40,15 +39,20 @@ contract SampleNFTUpgradable is
         _disableInitializers();
     }
 
-    function initialize(string memory _baseURI) public initializer {
+    function initialize(string memory _baseURI, uint96 _royaltyPercentage)
+        public
+        initializer
+    {
         __ERC721_init('SampleNFTUpgradable', 'SNFTU');
         __ERC721Enumerable_init();
         __ERC721Burnable_init();
+        __ERC2981_init();
         __Ownable_init();
         __UUPSUpgradeable_init();
         __DefaultOperatorFilterer_init();
 
         setBaseURI(_baseURI);
+        setRoyaltyPercentage(_royaltyPercentage);
     }
 
     /*----------
@@ -101,6 +105,15 @@ contract SampleNFTUpgradable is
         onlyOwner
     {}
 
+    /*-------------
+        Royalty
+    -------------*/
+
+    function setRoyaltyPercentage(uint96 _royaltyPercentage) public onlyOwner {
+        // Convert _royaltyPercentage to between 0 and 10_000.
+        _setDefaultRoyalty(owner(), _royaltyPercentage * 100);
+    }
+
     /*-----------------------------------------------------------------
         The following functions are overrides required by Solidity.
     -----------------------------------------------------------------*/
@@ -117,7 +130,11 @@ contract SampleNFTUpgradable is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        override(
+            ERC721Upgradeable,
+            ERC721EnumerableUpgradeable,
+            ERC2981Upgradeable
+        )
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
