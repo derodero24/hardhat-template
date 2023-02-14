@@ -7,13 +7,18 @@
     "coverage": "npx hardhat coverage",
     "deploy": "npx hardhat run scripts/deploy.ts --network localhost",
     "deploy:goerli": "npx hardhat run scripts/deploy.ts --network goerli",
+    "deploy_upgradable": "npx hardhat run scripts/deployUpgradable.ts --network localhost",
+    "deploy_upgradable:goerli": "npx hardhat run scripts/deployUpgradable.ts --network goerli",
     "node": "npx hardhat node",
     "test": "npx hardhat test",
-    "verify:goerli": "npx hardhat verify --network goerli --constructor-args scripts/arguments.ts $npm_config_address"
+    "verify:goerli": "npx hardhat verify --network goerli --constructor-args scripts/arguments.ts $npm_config_address",
+    "verify_upgradable:goerli": "npx hardhat verify --network goerli $npm_config_address"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@openzeppelin/contracts": "^4.8.1",
+    "@openzeppelin/contracts-upgradeable": "^4.8.1",
+    "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "@tsconfig/strictest": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "dotenv": "^16.0.3",

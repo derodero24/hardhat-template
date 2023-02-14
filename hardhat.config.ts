@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { HardhatUserConfig, task } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+import '@openzeppelin/hardhat-upgrades';
 
 dotenv.config();
 const { PRIVATE_KEY, GOERLI_URL, ETHERSCAN_API_KEY, COINMARKETCAP_API_KEY } =
