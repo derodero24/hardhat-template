@@ -102,12 +102,6 @@ contract SampleNFTUpgradable is
             );
     }
 
-    function _authorizeUpgrade(address newImplementation)
-        internal
-        override
-        onlyOwner
-    {}
-
     /*-------------
         Royalty
     -------------*/
@@ -117,9 +111,23 @@ contract SampleNFTUpgradable is
         _setDefaultRoyalty(owner(), _royaltyPercentage * 100);
     }
 
+    /*--------------
+        Withdraw
+    --------------*/
+
+    function withdraw() external payable onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+
     /*-----------------------------------------------------------------
         The following functions are overrides required by Solidity.
     -----------------------------------------------------------------*/
+
+    function _authorizeUpgrade(address newImplementation)
+        internal
+        override
+        onlyOwner
+    {}
 
     function _beforeTokenTransfer(
         address from,

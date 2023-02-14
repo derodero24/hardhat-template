@@ -92,6 +92,14 @@ contract SampleNFT is
         _setDefaultRoyalty(owner(), _royaltyPercentage * 100);
     }
 
+    /*--------------
+        Withdraw
+    --------------*/
+
+    function withdraw() external payable onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+
     /*-----------------------------------------------------------------
         The following functions are overrides required by Solidity.
     -----------------------------------------------------------------*/

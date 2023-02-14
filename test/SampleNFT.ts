@@ -117,6 +117,12 @@ describe('SampleNFT', () => {
     });
   });
 
+  describe('Withdraw', () => {
+    it('', async () => {
+      // TODO
+    });
+  });
+
   describe('Only owner', () => {
     it('', async () => {
       // TODO
