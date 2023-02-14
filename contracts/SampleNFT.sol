@@ -6,6 +6,7 @@ import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol';
 import '@openzeppelin/contracts/token/common/ERC2981.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 import 'operator-filter-registry/src/DefaultOperatorFilterer.sol';
@@ -17,6 +18,7 @@ contract SampleNFT is
     ERC721Burnable,
     ERC2981,
     Ownable,
+    ReentrancyGuard,
     DefaultOperatorFilterer
 {
     using Counters for Counters.Counter;
@@ -41,7 +43,7 @@ contract SampleNFT is
         Mint
     ----------*/
 
-    function _mint(address _to) internal {
+    function _mint(address _to) internal nonReentrant {
         // Check total supply
         require(totalSupply() < MAX_SUPPLY, 'Max supply reached.');
 

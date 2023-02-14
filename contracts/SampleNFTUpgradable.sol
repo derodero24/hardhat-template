@@ -6,6 +6,7 @@ import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721Enumer
 import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
@@ -20,6 +21,7 @@ contract SampleNFTUpgradable is
     ERC721BurnableUpgradeable,
     ERC2981Upgradeable,
     OwnableUpgradeable,
+    ReentrancyGuardUpgradeable,
     UUPSUpgradeable,
     DefaultOperatorFiltererUpgradeable
 {
@@ -48,6 +50,7 @@ contract SampleNFTUpgradable is
         __ERC721Burnable_init();
         __ERC2981_init();
         __Ownable_init();
+        __ReentrancyGuard_init();
         __UUPSUpgradeable_init();
         __DefaultOperatorFilterer_init();
 
@@ -59,7 +62,7 @@ contract SampleNFTUpgradable is
         Mint
     ----------*/
 
-    function _mint(address to) internal {
+    function _mint(address to) internal nonReentrant {
         // Check total supply
         require(totalSupply() < MAX_SUPPLY, 'Max supply reached.');
 
