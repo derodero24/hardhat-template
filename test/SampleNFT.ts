@@ -85,7 +85,11 @@ describe('SampleNFT', () => {
     });
 
     it('Update token URI', async () => {
-      // TODO
+      const { contract } = await loadFixture(deploy);
+      const newBaseURI = 'ipfs://def/';
+      await contract.setBaseURI(newBaseURI);
+      expect(await contract.tokenURI(1)).to.equal(`${newBaseURI}1.json`);
+      expect(await contract.tokenURI(23)).to.equal(`${newBaseURI}23.json`);
     });
   });
 
@@ -113,7 +117,21 @@ describe('SampleNFT', () => {
     });
 
     it('Update royality percentage', async () => {
-      // TODO
+      const { contract, owner } = await loadFixture(deploy);
+      const newRoyaltyPercentage = 5;
+      await contract.setRoyaltyPercentage(newRoyaltyPercentage);
+
+      // pattern 1
+      const [receiver, royaltyAmount] = await contract.royaltyInfo(1, 10_000);
+      expect(receiver).to.equal(owner.address);
+      expect(royaltyAmount).to.equal(10_000 * (newRoyaltyPercentage / 100));
+
+      // pattern 2
+      const [receiver2, royaltyAmount2] = await contract.royaltyInfo(23, 123);
+      expect(receiver2).to.equal(owner.address);
+      expect(royaltyAmount2).to.equal(
+        Math.floor(123 * (newRoyaltyPercentage / 100)),
+      );
     });
   });
 
