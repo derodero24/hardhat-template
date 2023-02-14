@@ -7,9 +7,16 @@ import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
+import 'operator-filter-registry/src/DefaultOperatorFilterer.sol';
 
 /// @custom:security-contact @derodero24
-contract SampleNFT is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
+contract SampleNFT is
+    DefaultOperatorFilterer,
+    ERC721,
+    ERC721Enumerable,
+    ERC721Burnable,
+    Ownable
+{
     using Counters for Counters.Counter;
 
     // Sale information
@@ -93,5 +100,50 @@ contract SampleNFT is ERC721, ERC721Enumerable, ERC721Burnable, Ownable {
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
+    }
+
+    /*------------------------------
+        Operator Filter Registry
+    ------------------------------*/
+
+    function setApprovalForAll(address operator, bool approved)
+        public
+        override(ERC721, IERC721)
+        onlyAllowedOperatorApproval(operator)
+    {
+        super.setApprovalForAll(operator, approved);
+    }
+
+    function approve(address operator, uint256 tokenId)
+        public
+        override(ERC721, IERC721)
+        onlyAllowedOperatorApproval(operator)
+    {
+        super.approve(operator, tokenId);
+    }
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override(ERC721, IERC721) onlyAllowedOperator(from) {
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override(ERC721, IERC721) onlyAllowedOperator(from) {
+        super.safeTransferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        bytes memory data
+    ) public override(ERC721, IERC721) onlyAllowedOperator(from) {
+        super.safeTransferFrom(from, to, tokenId, data);
     }
 }

@@ -9,10 +9,12 @@ import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
+import 'operator-filter-registry/src/upgradeable/DefaultOperatorFiltererUpgradeable.sol';
 
 /// @custom:security-contact @derodero24
 contract SampleNFTUpgradable is
     Initializable,
+    DefaultOperatorFiltererUpgradeable,
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
     ERC721BurnableUpgradeable,
@@ -44,6 +46,7 @@ contract SampleNFTUpgradable is
         __ERC721Burnable_init();
         __Ownable_init();
         __UUPSUpgradeable_init();
+        __DefaultOperatorFilterer_init();
 
         setBaseURI(_baseURI);
     }
@@ -118,5 +121,62 @@ contract SampleNFTUpgradable is
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
+    }
+
+    /*------------------------------
+        Operator Filter Registry
+    ------------------------------*/
+
+    function setApprovalForAll(address operator, bool approved)
+        public
+        override(ERC721Upgradeable, IERC721Upgradeable)
+        onlyAllowedOperatorApproval(operator)
+    {
+        super.setApprovalForAll(operator, approved);
+    }
+
+    function approve(address operator, uint256 tokenId)
+        public
+        override(ERC721Upgradeable, IERC721Upgradeable)
+        onlyAllowedOperatorApproval(operator)
+    {
+        super.approve(operator, tokenId);
+    }
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    )
+        public
+        override(ERC721Upgradeable, IERC721Upgradeable)
+        onlyAllowedOperator(from)
+    {
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    )
+        public
+        override(ERC721Upgradeable, IERC721Upgradeable)
+        onlyAllowedOperator(from)
+    {
+        super.safeTransferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        bytes memory data
+    )
+        public
+        override(ERC721Upgradeable, IERC721Upgradeable)
+        onlyAllowedOperator(from)
+    {
+        super.safeTransferFrom(from, to, tokenId, data);
     }
 }

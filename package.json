@@ -15,18 +15,19 @@
     "verify_upgradable:goerli": "npx hardhat verify --network goerli $npm_config_address"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
     "@openzeppelin/contracts": "^4.8.1",
     "@openzeppelin/contracts-upgradeable": "^4.8.1",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "@tsconfig/strictest": "^1.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-unused-imports": "^2.0.0",
     "hardhat": "^2.12.7",
+    "operator-filter-registry": "^1.4.0",
     "typescript": "^4.9.5"
   }
 }
